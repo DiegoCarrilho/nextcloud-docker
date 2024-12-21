@@ -21,7 +21,7 @@ if [ -f "$ENV_FILE" ]; then
     exit 1;
   fi
 fi
-TIMEZONE=America/New_York
+TIMEZONE=Europe/Lisbon
 MYSQL_ROOT_PASSWORD=$(openssl rand -base64 32)
 MYSQL_USER_PASSWORD=$(openssl rand -base64 32)
 DEFAULT_UID=$(id -u);
