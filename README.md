@@ -22,7 +22,7 @@ These instructions are for setting up a single-node Nextcloud instance at https:
 
 2. Clone this repo:
 ```bash
-git clone https://github.com/LaboratoryB/nextcloud-docker.git
+git clone https://github.com/DiegoCarrilho/nextcloud-docker.git
 ```
 
 3. Start a Docker Swarm. If you have an existing Swarm, skip this step and join it instead.
