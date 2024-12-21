@@ -52,7 +52,7 @@ services:
         - traefik.http.routers.nextcloud-insecure.middlewares=redirect-to-https@file
         - traefik.http.routers.nextcloud-insecure.entryPoints=web
         - traefik.http.services.nextcloud-service.loadbalancer.server.port=80
-      replicas: 6        
+      replicas: 1
     depends_on:
       - mariadb
       - redis
