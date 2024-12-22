@@ -70,11 +70,11 @@ services:
   mariadb:
     image: docker.io/mariadb:10.5
     environment:
-      - TZ=Europe/Lisbon
-      - MYSQL_ROOT_PASSWORD=q/9diDLvnz9L0zkgs/17ZUcOyHAN/uZbqp49rPgW/RM=
+      - TZ=${TIMEZONE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud-installer
-      - MYSQL_PASSWORD=Y5ZYQhsataKdC7ARPl5PGJeLZJjl/JhMkKoIPSLgaDU=
+      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
     volumes:
       - ./mariadb/config:/etc/mysql/conf.d
       - mysql-data:/var/lib/mysql
