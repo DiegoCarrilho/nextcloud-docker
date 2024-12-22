@@ -94,6 +94,15 @@ services:
     networks:
       - backend
     restart: unless-stopped
+  phpmyadmin:
+    image: docker.io/phpmyadmin
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - backend
 networks:
   frontend:
     driver: overlay
