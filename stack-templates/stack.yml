@@ -2,6 +2,16 @@ version: "3.3"
 volumes:
   mysql-data:
   redis-data:
+  nextcloud:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.10.5,rw,nolock"
+      device: ":/srv/nextcloud"
+  nextcloud_data:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.10.5,rw,nolock"
+      device: ":/srv/nextcloud_data"
 services:
   traefik:
     image: docker.io/traefik:2.5
@@ -32,8 +42,8 @@ services:
       - PGID=${NEXTCLOUD_GID}
       - TZ=${TIMEZONE}
     volumes:
-      - ./nextcloud/config:/config
-      - ./nextcloud/data:/data
+      - nextcloud:/config
+      - nextcloud_data:/data
     networks:
       - frontend
       - backend
@@ -60,17 +70,21 @@ services:
   mariadb:
     image: docker.io/mariadb:10.5
     environment:
-      - TZ=${TIMEZONE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=Europe/Lisbon
+      - MYSQL_ROOT_PASSWORD=q/9diDLvnz9L0zkgs/17ZUcOyHAN/uZbqp49rPgW/RM=
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud-installer
-      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_PASSWORD=Y5ZYQhsataKdC7ARPl5PGJeLZJjl/JhMkKoIPSLgaDU=
     volumes:
       - ./mariadb/config:/etc/mysql/conf.d
       - mysql-data:/var/lib/mysql
     networks:
       - backend
     restart: unless-stopped
+    deploy:
+      placement:
+        constraints:
+         - "node.role==manager"
   redis:
     image: docker.io/redis:6-alpine
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
