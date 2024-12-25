@@ -16,7 +16,7 @@ Use Docker's built-in container orchestrator, [swarm mode](https://docs.docker.c
 - At least 2GB of free disk space to be useful
 
 ## Quick Start
-These instructions are for setting up a single-node Nextcloud instance at https://nextcloud.example.com. Substitute nextcloud.example.com for your desired subdomain.
+These instructions are for setting up a scalable Nextcloud instance at https://nextcloud.example.com. Substitute nextcloud.example.com for your desired subdomain.
 
 1. Find your public IPv4 address by going to https://ipv4.icanhazip.com. Add an A record in your domain's DNS for your desired subdomain. For example, create an A record for `nextcloud` with the value `208.69.38.205` fin the DNS records for zone `example.com`.
 
@@ -36,7 +36,7 @@ cd nextcloud-docker
 ./generate-env.sh nextcloud.example.com
 ```
 
-5. Set up a DHCP reservation in your router, or a static LAN IP, so you get the same local IP every time.
+5. Set up a DHCP reservation in your router, or a static LAN IP, so you get the same local IP every time. Setup nfs storage for nextcloud "config" and nextcloud_data "data".
 
 6. [Forward ports](https://portforward.com/router.htm) 80 and 443 through your router, to the machine running Docker.
 
@@ -91,6 +91,7 @@ To update, open a terminal and run:
 ```bash
 ./update.sh
 ```
+After install and first run the scale up is possíble, the session files are now handled by redis and persistent nextcloud file data on NFS.
 
 ## Nextcloud Console Command Use
 Nextcloud is mostly administered through the web interface, however some tasks must be performed from the Nextcloud Console. If you need to run the `occ` command -
