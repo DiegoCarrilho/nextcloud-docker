@@ -94,6 +94,10 @@ services:
     networks:
       - backend
     restart: unless-stopped
+    deploy:
+      placement:
+        constraints:
+         - "node.role==manager"    
   phpmyadmin:
     image: docker.io/phpmyadmin
     restart: unless-stopped
