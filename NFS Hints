@@ -1,0 +1,19 @@
+Create NFS
+Verificar o ip da rede nfs
+www-data UID GID 1000
+
+
+apt-get update
+apt-get upgrade -y
+mkdir -p /srv/nextcloud_data
+mkdir -p /srv/nextcloud
+chmod -R 755 /srv/nextcloud/
+chmod -R 755 /srv/nextcloud_data/
+chown -R www-data:www-data /srv/nextcloud/
+chown -R www-data:www-data /srv/nextcloud_data/
+echo '/srv/nextcloud 192.168.10.0/24(rw,no_subtree_check,no_root_squash)' > /etc/exports
+echo '/srv/nextcloud_data 192.168.10.0/24(rw,no_subtree_check,no_root_squash)' > /etc/exports
+echo '' > /etc/exports
+exportfs -rva
+
+Adicionar os default files nas respectivsas pastas em /nextcloud/config/
