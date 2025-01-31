@@ -1,0 +1,12 @@
+Create NFS on manager
+apt-get update
+apt-get upgrade -y
+apt install nfs-kernel-server apache2 -y
+mkdir -p /srv/docker_volume
+echo '/srv/nextcloud *(rw,no_subtree_check,no_root_squash)' > /etc/exports
+echo '' > /etc/exports
+exportfs -rva
+
+Mount NFS on worker
+mkdir -p /srv/docker_volume
+sudo mount -t nfs NFS_IP_ADDR:/srv/docker_volume /srv/docker_volume
