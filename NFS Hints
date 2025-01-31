@@ -1,23 +1,12 @@
-Create NFS
-Verificar o ip da rede nfs
-www-data UID GID 1000
-
-
+Create NFS on manager
 apt-get update
 apt-get upgrade -y
 apt install nfs-kernel-server apache2 -y
-systemctl stop apache2
-systemctl disable apache2
-mkdir -p /srv/docker_volumecd ~/
-
-mkdir -p /srv/nextcloud
-chmod -R 755 /srv/nextcloud/
-chmod -R 755 /srv/nextcloud_data/
-chown -R www-data:www-data /srv/nextcloud/
-chown -R www-data:www-data /srv/nextcloud_data/
+mkdir -p /srv/docker_volume
 echo '/srv/nextcloud *(rw,no_subtree_check,no_root_squash)' > /etc/exports
-echo '/srv/nextcloud_data *l(rw,no_subtree_check,no_root_squash)' > /etc/exports
 echo '' > /etc/exports
 exportfs -rva
 
-Adicionar os default files nas respectivsas pastas em /nextcloud/config/
+Mount NFS on worker
+mkdir -p /srv/docker_volume
+sudo mount -t nfs NFS_IP_ADDR:/srv/docker_volume /srv/docker_volume
