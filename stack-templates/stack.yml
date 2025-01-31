@@ -1,17 +1,4 @@
 version: "3.3"
-volumes:
-  mysql-data:
-  redis-data:
-  nextcloud:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.10.5,rw,nolock"
-      device: ":/srv/nextcloud"
-  nextcloud_data:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.10.5,rw,nolock"
-      device: ":/srv/nextcloud_data"
 services:
   traefik:
     image: docker.io/traefik:2.5
@@ -31,10 +18,10 @@ services:
        published: 8080
        mode: host
     restart: unless-stopped
-    deploy:
-      placement:
-        constraints:
-         - "node.role==manager"
+#    deploy:
+#      placement:
+#        constraints:
+#         - "node.role==manager"
   app:
     image: ghcr.io/linuxserver/nextcloud
     environment:
@@ -42,8 +29,8 @@ services:
       - PGID=${NEXTCLOUD_GID}
       - TZ=${TIMEZONE}
     volumes:
-      - nextcloud:/config
-      - nextcloud_data:/data
+      - ./nextcloud/config:/config
+      - ./nextcloud/data:/data
     networks:
       - frontend
       - backend
@@ -77,27 +64,27 @@ services:
       - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
     volumes:
       - ./mariadb/config:/etc/mysql/conf.d
-      - mysql-data:/var/lib/mysql
+      - ./mariadb/data:/var/lib/mysql
     networks:
       - backend
     restart: unless-stopped
-    deploy:
-      placement:
-        constraints:
-         - "node.role==manager"
+#    deploy:
+#      placement:
+#        constraints:
+#         - "node.role==manager"
   redis:
     image: docker.io/redis:6-alpine
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     volumes:
       - ./redis/config:/usr/local/etc/redis
-      - redis-data:/data
+      - ./redis/data:/data
     networks:
       - backend
     restart: unless-stopped
-    deploy:
-      placement:
-        constraints:
-         - "node.role==manager"    
+ #   deploy:
+ #     placement:
+ #       constraints:
+ #        - "node.role==manager"    
   phpmyadmin:
     image: docker.io/phpmyadmin
     restart: unless-stopped
